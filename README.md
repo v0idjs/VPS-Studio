@@ -5,11 +5,11 @@
 **A modern, local-first desktop application for managing Linux servers over SSH.**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-0.1.0-blue)](https://github.com/vps-studio/vps-studio/releases)
-[![CI](https://github.com/vps-studio/vps-studio/actions/workflows/ci.yml/badge.svg)](https://github.com/vps-studio/vps-studio/actions/workflows/ci.yml)
-[![GitHub Stars](https://img.shields.io/github/stars/vps-studio/vps-studio)](https://github.com/vps-studio/vps-studio/stargazers)
-[![GitHub Issues](https://img.shields.io/github/issues/vps-studio/vps-studio)](https://github.com/vps-studio/vps-studio/issues)
-[![Downloads](https://img.shields.io/github/downloads/vps-studio/vps-studio/total)](https://github.com/vps-studio/vps-studio/releases)
+[![Version](https://img.shields.io/badge/version-0.1.0-blue)](https://github.com/v0idjs/VPS-Studio/releases)
+[![CI](https://github.com/v0idjs/VPS-Studio/actions/workflows/ci.yml/badge.svg)](https://github.com/v0idjs/VPS-Studio/actions/workflows/ci.yml)
+[![GitHub Stars](https://img.shields.io/github/stars/v0idjs/VPS-Studio)](https://github.com/v0idjs/VPS-Studio/stargazers)
+[![GitHub Issues](https://img.shields.io/github/issues/v0idjs/VPS-Studio)](https://github.com/v0idjs/VPS-Studio/issues)
+[![Downloads](https://img.shields.io/github/downloads/v0idjs/VPS-Studio/total)](https://github.com/v0idjs/VPS-Studio/releases)
 
 <p align="center">
   <strong>Windows</strong> • <strong>macOS</strong> • <strong>Linux</strong>
@@ -177,7 +177,7 @@ sudo apt-get install -y \
 
 ### Download Pre-built Binaries
 
-Download the latest release for your platform from the [Releases](https://github.com/vps-studio/vps-studio/releases) page.
+Download the latest release for your platform from the [Releases](https://github.com/v0idjs/VPS-Studio/releases) page.
 
 - **Windows**: `.exe` installer
 - **macOS**: `.dmg` disk image
@@ -188,7 +188,7 @@ Download the latest release for your platform from the [Releases](https://github
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/vps-studio/vps-studio.git
+   git clone https://github.com/v0idjs/VPS-Studio.git
    cd vps-studio
    ```
 
@@ -363,9 +363,9 @@ All data is stored locally in SQLite:
 
 | Platform | Path |
 |----------|------|
-| **Windows** | `%APPDATA%/vps-studio/vps-studio.db` |
-| **macOS** | `~/Library/Application Support/vps-studio/vps-studio.db` |
-| **Linux** | `~/.local/share/vps-studio/vps-studio.db` |
+| **Windows** | `%APPDATA%/v0idjs/VPS-Studio.db` |
+| **macOS** | `~/Library/Application Support/v0idjs/VPS-Studio.db` |
+| **Linux** | `~/.local/share/v0idjs/VPS-Studio.db` |
 
 ### Encryption
 
@@ -389,6 +389,8 @@ VPS Studio is designed with security as a core principle:
 - **Path traversal protection**: Sanitized filenames prevent directory traversal attacks
 - **CSP enabled**: Content Security Policy restricts script execution sources
 - **Secure defaults**: DB files created with 0600 permissions on Unix systems
+- **Credential encryption**: Server passwords and SSH keys encrypted with AES-256-GCM before storage
+- **Real SSH terminal**: Terminal sessions establish genuine SSH connections with PTY support
 
 For more details, see our [Security Policy](SECURITY.md).
 
@@ -408,7 +410,7 @@ We welcome contributions from the community! Please read our [Contributing Guide
 
 - [Code of Conduct](CODE_OF_CONDUCT.md)
 - [Security Policy](SECURITY.md)
-- [Issue Templates](https://github.com/vps-studio/vps-studio/issues/new/choose)
+- [Issue Templates](https://github.com/v0idjs/VPS-Studio/issues/new/choose)
 
 ## License
 
@@ -426,6 +428,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 <div align="center">
 
-**[Report Bug](https://github.com/vps-studio/vps-studio/issues/new?template=bug_report.md)** • **[Request Feature](https://github.com/vps-studio/vps-studio/issues/new?template=feature_report.md)** • **[Ask Question](https://github.com/vps-studio/vps-studio/issues/new?template=question.md)**
+**[Report Bug](https://github.com/v0idjs/VPS-Studio/issues/new?template=bug_report.md)** • **[Request Feature](https://github.com/v0idjs/VPS-Studio/issues/new?template=feature_report.md)** • **[Ask Question](https://github.com/v0idjs/VPS-Studio/issues/new?template=question.md)**
 
 </div>
