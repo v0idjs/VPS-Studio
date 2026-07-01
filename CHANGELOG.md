@@ -7,7 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 ## [Unreleased]
 
 ### Added
-- Input validation module (`validation.rs`) with strict allowlists for service names, container IDs, image names, SSH key types, firewall protocols, ports, IPs, kill signals, and log sources
+- Input validation module (`validation.rs`) with strict allowlists for service names, container IDs, image names, SSH key types, firewall protocols, ports, IPs, kill signals, log sources, package names, cron schedules, cron commands, settings keys, and log levels
 - Path traversal protection via `sanitize_filename()` helper
 - `with_sftp()` helper to eliminate SFTP connection boilerplate in file operations
 - `row_to_server()` helper to eliminate duplicated Server struct mapping
@@ -17,12 +17,26 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Real SSH terminal sessions with PTY allocation (was previously a stub)
 - Server credential encryption and storage (password, private_key, passphrase)
 - Server `password`, `private_key`, `passphrase` fields returned from backend (sensitive values redacted)
+- Sidebar navigation with `activeView` state — sidebar buttons now navigate between views
+- TopBar notification and settings buttons now functional
 
 ### Fixed
+- **CRITICAL**: Removed hardcoded default encryption key — now uses OS keychain (`keyring` crate) exclusively
+- **CRITICAL**: Added input validation to all shell command construction to prevent command injection (packages, logs, cron, settings, notifications, workspaces, SSH keys)
+- **CRITICAL**: SSH key import now uses `printf` instead of `echo` to prevent shell injection via single quotes
+- **CRITICAL**: Cron job add/remove now validates schedule and command inputs
+- **CRITICAL**: Settings import/export validates base64 data and SQL dump safety
 - **CRITICAL**: Database schema ID type mismatch — changed all tables from `INTEGER AUTOINCREMENT` to `TEXT PRIMARY KEY` to match UUID-based Rust IDs
 - **CRITICAL**: Terminal sessions now establish real SSH connections with PTY (was previously a no-op stub that created empty sessions)
+- **HIGH**: CSP `unsafe-inline` for styles removed — now uses strict `style-src 'self'`
 - **HIGH**: Server credentials (`password`, `private_key`, `passphrase`) now encrypted and stored in DB (were previously accepted but silently discarded)
 - **HIGH**: Added `get_service_status` to Tauri invoke handler (was defined but not registered)
+- **HIGH**: Sidebar buttons now functional with navigation state
+- **HIGH**: TopBar bell/gear buttons now navigate to Notifications/Settings views
+- **MEDIUM**: Terminal input loop now uses blocking `recv_timeout` instead of busy-wait polling (was wasting CPU with 10ms sleep)
+- **MEDIUM**: Snapshot creation now batches 7 SSH calls into 1 (was N+1)
+- **MEDIUM**: SSH key listing now batches file reads into 1 SSH call (was N+1)
+- **MEDIUM**: DB row errors now logged to stderr instead of silently swallowed
 - Fixed `SshConnection.session` field visibility (`pub(crate)`)
 - Fixed ssh2 0.9 API mismatches in `sftp.rs` (`rm`→`unlink`, `rename` takes 3 args, `FileStat` field access)
 - Fixed duplicate type definitions between `commands::dashboard` and `db::queries::dashboard`
@@ -31,20 +45,29 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Fixed `settings.rs`/`settings/` directory conflict
 - Fixed `aes_gcm::Error` not implementing `StdError`
 - Fixed all broken import paths across the codebase
+- Fixed notification plugin config — removed invalid `plugins.notification` from tauri.conf.json
+- Fixed 16 `useEffect` dependency bugs causing infinite re-render loops
+- Fixed window icon config for taskbar display
 
 ### Security
-- **CRITICAL**: Enabled Content Security Policy (CSP) — was previously disabled (`null`)
-- **HIGH**: Added input validation to all shell command construction (firewall rules, service names, Docker container IDs, SSH key types, kill signals, log sources)
-- **HIGH**: Added path traversal protection to workspace, notification, and command library file operations
-- **HIGH**: Fixed command success detection to use SSH exit code instead of string matching for "error"
-- **HIGH**: Server credentials encrypted with AES-256-GCM before storage
-- **MEDIUM**: Set SQLite database file permissions to 0600 on Unix systems
-- **MEDIUM**: Added input validation for settings key names
+- **CRITICAL**: Removed hardcoded encryption key fallback — now requires OS keychain
+- **CRITICAL**: Added input validation to ALL shell command construction (was only partial)
+- **CRITICAL**: SSH key import uses safe `printf` instead of `echo` (prevents injection via single quotes)
+- **CRITICAL**: Cron, settings import/export, notifications, workspaces all validated
+- **HIGH**: Removed `unsafe-inline` from CSP `style-src`
+- **HIGH**: Added validation for package names, cron schedules, cron commands, settings keys, log levels
+- **HIGH**: Path traversal protection extended to all file operations
+- **MEDIUM**: Decrypted credentials not zeroed from memory (flagged, needs `zeroize` crate — see Planned)
+- **MEDIUM**: DB row errors now logged instead of silently dropped
 
 ### Changed
 - Refactored `servers.rs` to use shared `row_to_server()` helper (removed 5 duplicated 11-field mappings)
 - Refactored `files.rs` to use shared `with_sftp()` helper (removed 8 duplicated SFTP connection blocks)
 - Refactored `docker.rs` to consolidate 4 identical container action functions into one `docker_action()` helper
+- Merged duplicate `SERVER_COLUMNS` constant into single source of truth
+- Extracted shared `StatusIcon` component (was duplicated in ServerCard and ServerDetail)
+- Removed 11 unused TypeScript types from `lib/types.ts`
+- Removed dead Rust code: `db/schema.rs` constants, `ssh/keys.rs::parse_ssh_keygen_fingerprint`, `ssh/commands.rs::CommandHistory`
 - Added `regex` and `lazy_static` dependencies to Cargo.toml
 - Terminal backend now uses real SSH sessions via `ssh2` crate with background I/O threads
 - Server struct now includes credential fields (password, private_key, passphrase) as `Option<String>`
