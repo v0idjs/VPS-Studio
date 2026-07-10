@@ -1,0 +1,44 @@
+[package]
+name = "vps-studio"
+version = "0.1.0"
+description = "A local-first desktop application for managing Linux servers over SSH"
+authors = ["VPS Studio Contributors"]
+edition = "2021"
+
+[lib]
+name = "vps_studio_lib"
+crate-type = ["lib", "cdylib", "staticlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+tauri-plugin-notification = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+rusqlite = { version = "0.31", features = ["bundled"] }
+ssh2 = "0.9"
+keyring = "2"
+hex = "0.4"
+aes-gcm = "0.10"
+rand = "0.8"
+sha2 = "0.10"
+chrono = { version = "0.4", features = ["serde"] }
+uuid = { version = "1", features = ["v4", "serde"] }
+tokio = { version = "1", features = ["full"] }
+thiserror = "1"
+regex = "1"
+lazy_static = "1"
+zeroize = { version = "1", features = ["derive"] }
+dirs = "5"
+
+[features]
+default = ["custom-protocol"]
+custom-protocol = ["tauri/custom-protocol"]
+
+[profile.release]
+strip = true
+lto = true
+codegen-units = 1
+panic = "abort"

@@ -382,15 +382,17 @@ VPS Studio is designed with security as a core principle:
 - **Local-first**: No data leaves your machine
 - **No cloud**: No account system or cloud sync
 - **Encryption**: Sensitive data encrypted at rest with AES-256-GCM
-- **Keychain**: Encryption keys stored in OS keychain
+- **Keychain**: Encryption keys stored in OS keychain (no hardcoded fallback)
 - **SSH-only**: No agent installed on servers
 - **Open source**: Fully auditable codebase
-- **Input validation**: Strict allowlists for all user inputs (service names, container IDs, IPs, ports, SSH key types, kill signals)
+- **Input validation**: Strict allowlists for ALL user inputs (service names, container IDs, IPs, ports, SSH key types, kill signals, package names, cron schedules, settings keys, log levels)
 - **Path traversal protection**: Sanitized filenames prevent directory traversal attacks
-- **CSP enabled**: Content Security Policy restricts script execution sources
+- **CSP enabled**: Content Security Policy restricts script and style sources (no `unsafe-inline`)
 - **Secure defaults**: DB files created with 0600 permissions on Unix systems
 - **Credential encryption**: Server passwords and SSH keys encrypted with AES-256-GCM before storage
 - **Real SSH terminal**: Terminal sessions establish genuine SSH connections with PTY support
+- **Shell injection prevention**: All shell-interpolated inputs validated; SSH key import uses safe `printf`
+- **Error visibility**: DB errors logged to stderr instead of silently dropped
 
 For more details, see our [Security Policy](SECURITY.md).
 
