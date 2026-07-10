@@ -19,6 +19,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Server `password`, `private_key`, `passphrase` fields returned from backend (sensitive values redacted)
 - Sidebar navigation with `activeView` state — sidebar buttons now navigate between views
 - TopBar notification and settings buttons now functional
+- `zeroize` crate for secure memory wiping of decrypted encryption keys
+- SSH host key verification via `known_hosts` file (TOFU model) — prevents MITM attacks
+- `EmptyState` shared component with icon, title, description, and action slot for all empty list views
+- `AlertDialog` shared component replacing native browser `confirm()` for destructive actions
+- `Skeleton`, `SkeletonCard`, `SkeletonTable` loading placeholder components
+- `dirs` crate for OS-local data directory resolution (known_hosts storage)
+- 9 new functional requirements in spec (FR-027 through FR-035): host key verification, zeroize, loading/empty/error states, input validation, tag constraints, key rotation, backup encryption
 
 ### Fixed
 - **CRITICAL**: Removed hardcoded default encryption key — now uses OS keychain (`keyring` crate) exclusively
@@ -57,8 +64,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - **HIGH**: Removed `unsafe-inline` from CSP `style-src`
 - **HIGH**: Added validation for package names, cron schedules, cron commands, settings keys, log levels
 - **HIGH**: Path traversal protection extended to all file operations
-- **MEDIUM**: Decrypted credentials not zeroed from memory (flagged, needs `zeroize` crate — see Planned)
+- **MEDIUM**: Decrypted credentials now zeroized from memory after use (`zeroize` crate)
 - **MEDIUM**: DB row errors now logged instead of silently dropped
+- **MEDIUM**: SSH host key verification via `known_hosts` (TOFU model) — prevents MITM attacks
+- **MEDIUM**: Shared `AlertDialog` component ensures consistent destructive action confirmations across all modules
 
 ### Changed
 - Refactored `servers.rs` to use shared `row_to_server()` helper (removed 5 duplicated 11-field mappings)

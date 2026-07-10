@@ -37,14 +37,7 @@ VPS Studio is a powerful, local-first desktop application designed for system ad
 
 <div align="center">
 
-![Dashboard](docs/images/dashboard.png)
-*Server Dashboard with real-time monitoring*
-
-![Terminal](docs/images/terminal.png)
-*Multi-tab terminal with SSH sessions*
-
-![File Manager](docs/images/files.png)
-*Remote file management with SFTP*
+*Coming soon — screenshots will be added after the first release build.*
 
 </div>
 
@@ -393,6 +386,9 @@ VPS Studio is designed with security as a core principle:
 - **Real SSH terminal**: Terminal sessions establish genuine SSH connections with PTY support
 - **Shell injection prevention**: All shell-interpolated inputs validated; SSH key import uses safe `printf`
 - **Error visibility**: DB errors logged to stderr instead of silently dropped
+- **Memory safety**: Decrypted credentials zeroized from memory after use (`zeroize` crate)
+- **Host key verification**: SSH connections verify server host keys via `known_hosts` (TOFU model) to prevent MITM attacks
+- **Consistent UX**: Shared `AlertDialog` for all destructive action confirmations; `EmptyState` for all empty list views
 
 For more details, see our [Security Policy](SECURITY.md).
 
